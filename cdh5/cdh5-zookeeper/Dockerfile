@@ -1,5 +1,5 @@
 # cdh5-zookeeper
-# basic singl server zookeeper
+# just simple single server zookeeper
 
 # VERSION   0.1
 
