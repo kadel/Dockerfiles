@@ -3,8 +3,7 @@
 
 # VERSION   0.1
 
-# from https://github.com/kadel/Dockerfiles/tree/master/cdh5/cdh5-base
-FROM cdh5-base
+FROM tomaskral/cdh5-base
 
 MAINTAINER Tomas Kral <tomas.kral@gmail.com>
 
