@@ -32,6 +32,12 @@
      <name>dfs.safemode.min.datanodes</name>
      <value>1</value>
   </property>
+
+  <property>
+     <name>dfs.namenode.http-address</name>
+     <value>${NN_HOSTNAME}:50070</value>
+  </property>
+
   <property>
      <name>hadoop.tmp.dir</name>
      <value>/var/lib/hadoop-hdfs/cache/tmp</value>
