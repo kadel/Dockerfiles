@@ -3,7 +3,7 @@
 # VERSION 0.2
 
 FROM debian
-MAINTAINER Tomas Kral <tomas.kral@firma.seznam.cz>
+MAINTAINER Tomas Kral <tomas.kral@gmail.com>
 
 ENV DEB_VERSION_CHRONOS 2.2.0-0.1.20141002204602
 ENV DEB_VERSION_MESOS 0.20.1-1.0.debian75
