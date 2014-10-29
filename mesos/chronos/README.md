@@ -25,6 +25,7 @@ docker run -d tomaskral/chronos  --master zk://zoo1:2181,zoo2:2181,zoo3:2181/mes
     "instances": 1,
     "cpus": 0.1,
     "mem": 512,
+    "shell": "false",
     "args": ["--master", "zk://zoo1:2181,zoo2:2181,zoo3:2181/mesos", "--zk_hosts", "zk://zoo1:2181,zoo2:2181,zoo3:2181"],
     "container": {
         "type": "DOCKER",
