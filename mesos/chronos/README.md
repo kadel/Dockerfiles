@@ -3,12 +3,13 @@ Distributed and fault-tolerant scheduler for Apache Mesos.
 
 https://github.com/mesosphere/chronos
 
-Installed from [Mesosphere](https://mesosphere.com) [repository](https://mesosphere.com/downloads/#repository-setup)
+Installed from [Mesosphere](https://mesosphere.com) 
+[repository](https://mesosphere.com/downloads/#repository-setup)
 
 
 ## versions:
-* chronos 2.2.0-0.1.20141002204602
-* mesos 0.20.1-1.0.debian75
+* chronos 2.3.0-0.1.20141121000021
+* mesos 0.21.0-1.0.debian77
 
 
 ## example:
