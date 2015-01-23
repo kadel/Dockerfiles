@@ -5,8 +5,8 @@
 FROM debian
 MAINTAINER Tomas Kral <tomas.kral@gmail.com>
 
-ENV DEB_VERSION_CHRONOS 2.3.0-0.1.20141121000021
-ENV DEB_VERSION_MESOS 0.21.0-1.0.debian77
+ENV DEB_VERSION_CHRONOS 2.3.1-0.1.20150122202347
+ENV DEB_VERSION_MESOS 0.21.1-1.2.debian77
 
 
 RUN echo "deb http://repos.mesosphere.io/debian wheezy main" > /etc/apt/sources.list.d/mesosphere.list
