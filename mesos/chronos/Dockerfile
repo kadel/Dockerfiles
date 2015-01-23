@@ -1,6 +1,6 @@
 # Chronos
 #
-# VERSION 0.3
+# VERSION 0.3.1
 
 FROM debian
 MAINTAINER Tomas Kral <tomas.kral@gmail.com>
@@ -22,6 +22,6 @@ RUN rm /etc/chronos/conf/http_port
 
 EXPOSE 8080
 
-ENTRYPOINT ["/usr/local/bin/chronos"]
+ENTRYPOINT ["/usr/bin/chronos"]
 
 
