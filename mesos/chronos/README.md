@@ -8,8 +8,8 @@ Installed from [Mesosphere](https://mesosphere.com)
 
 
 ## versions:
-* chronos 2.3.0-0.1.20141121000021
-* mesos 0.21.0-1.0.debian77
+* chronos 2.3.1-0.1.20150122202347
+* mesos 0.21.1-1.2.debian77
 
 
 ## example:
