@@ -1,0 +1,5 @@
+{
+"cmd": "sudo  /vagrant/mesos-dns/mesos-dns-v0.4.0-linux-amd64 -config=/vagrant/mesos-dns/config.json",
+"id": "mesos-dns",
+"instances": 1
+}

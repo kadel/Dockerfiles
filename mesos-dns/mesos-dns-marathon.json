@@ -1,0 +1,17 @@
+{
+	"id": "mesos-dns",
+	"container": {
+		"type": "DOCKER",
+		"docker":{
+			"network":"HOST",
+			"image": "tomaskral/mesos-dns",
+			"portMappings": [
+				{"containerPort": 53, "hostPort": 53, "protocol": "tcp"}
+				{"containerPort": 53, "hostPort": 53, "protocol": "udp"}
+				{"containerPort": 8123, "hostPort": 8123, "protocol": "tcp"}
+			]
+		}
+	},
+	"cpus": 0.5,
+	"mem": 128
+}
