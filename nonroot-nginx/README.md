@@ -1,10 +1,5 @@
 # nonroot-nginx
-nginx running as unprivileged user 
-
-based on: https://github.com/CentOS/CentOS-Dockerfiles/tree/master/nginx/centos7
-
-TODO:
- - logging to stdout
+Docker container based on centos7 with Nginx that can run without root privileges.
 
 
 
