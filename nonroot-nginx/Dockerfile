@@ -17,6 +17,6 @@ RUN chmod -R go+rwx /var/log/nginx
 EXPOSE 8080
 RUN chmod -R go+rwx /var/lib/nginx
 
-USER 999
+USER 997
 
 ENTRYPOINT [ "/usr/sbin/nginx" ]
