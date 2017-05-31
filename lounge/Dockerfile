@@ -7,11 +7,9 @@ RUN yum install -y epel-release && \
 ENV LOUNGE_VERSION v2.3.0-rc.2
 ENV NODE_ENV production
 
-# Install thelounge.
 RUN npm install -g thelounge@${LOUNGE_VERSION} && \
     npm cache clean
 
-# Expose HTTP.
 ENV PORT 9000
 EXPOSE ${PORT}
 
@@ -19,7 +17,9 @@ EXPOSE ${PORT}
 
 ENV LOUNGE_HOME "/home/lounge/data"
 RUN mkdir -p "${LOUNGE_HOME}"
-VOLUME "${LOUNGE_HOME}"
+# so it can be run as any user
+RUN chmod 777 ${LOUNGE_HOME}
 
+VOLUME "${LOUNGE_HOME}"
 
 ENTRYPOINT ["lounge"]
