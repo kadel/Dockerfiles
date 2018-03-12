@@ -16,7 +16,7 @@ EXPOSE ${PORT}
 ENV LOUNGE_HOME "/home/lounge/data"
 RUN mkdir -p "${THELOUNGE_HOME}"
 # so it can be run as any user
-RUN chmod 777 ${LOUNGE_HOME}
+RUN chmod 777 ${THELOUNGE_HOME}
 
 VOLUME "${THELOUNGE_HOME}"
 
