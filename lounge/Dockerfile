@@ -13,7 +13,7 @@ RUN npm install -g thelounge@${LOUNGE_VERSION} && \
 ENV PORT 9000
 EXPOSE ${PORT}
 
-ENV LOUNGE_HOME "/home/lounge/data"
+ENV THELOUNGE_HOME "/home/lounge/data"
 RUN mkdir -p "${THELOUNGE_HOME}"
 # so it can be run as any user
 RUN chmod 777 ${THELOUNGE_HOME}
