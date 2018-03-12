@@ -4,7 +4,7 @@ RUN yum install -y epel-release && \
     yum install -y nodejs npm && \
     yum clean all
 
-ENV LOUNGE_VERSION v2.3.0-rc.2
+ENV LOUNGE_VERSION v2.7.1
 ENV NODE_ENV production
 
 RUN npm install -g thelounge@${LOUNGE_VERSION} && \
