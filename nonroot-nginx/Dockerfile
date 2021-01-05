@@ -1,5 +1,5 @@
 FROM centos:centos7
-MAINTAINER Tomas Kral <tomas.kral@gmail.com>
+LABEL maintainer="tomas.kral@gmail.com"
 
 RUN yum -y --setopt=tsflags=nodocs update && \
     yum -y --setopt=tsflags=nodocs install epel-release && \
