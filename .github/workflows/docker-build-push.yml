@@ -29,12 +29,8 @@ jobs:
       - name: Build and push updated container images
         run: |
             ignore_dirs=(".git" ".github" "NOT-MANTAINED" ".")
-            if [[ "${{ github.event.inputs.buildAll }}" == "true" ]]; then
-              updated_dirs=$(find . -maxdepth 1 -type d | sed 's|^./||')
-            else
-              updated_dirs=$(git diff --name-only HEAD^ HEAD | awk -F'/' '{print $1}' | sort -u)
-            fi
-            for dir in $updated_dirs; do
+            updated_dirs=$(find . -maxdepth 1 -type d | sed 's|^./||')
+            for dir in $dirs; do
               echo "Processing directory: $dir"
               dir_name=$(basename "$dir")
               if [[ " ${ignore_dirs[@]} " =~ " ${dir_name} " ]]; then
