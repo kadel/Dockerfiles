@@ -5,8 +5,8 @@ on:
     inputs:
       buildAll:
         description: 'Build all directories regardless of updates'
-        required: false
-        default: 'false'
+        required: true
+        default: 'true'
   push:
     branches:
       - main
@@ -30,7 +30,7 @@ jobs:
         run: |
             ignore_dirs=(".git" ".github" "NOT-MANTAINED")
             if [[ "${{ github.event.inputs.buildAll }}" == "true" ]]; then
-              updated_dirs=$(find . -maxdepth 1 -type d | sed 's|^./||' | grep -vE "^(${ignore_dirs[*]})$")
+              updated_dirs=$(find . -maxdepth 1 -type d | sed 's|^./||')
             else
               updated_dirs=$(git diff --name-only HEAD^ HEAD | awk -F'/' '{print $1}' | sort -u)
             fi
