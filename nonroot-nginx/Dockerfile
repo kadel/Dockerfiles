@@ -1,10 +1,9 @@
-FROM centos:centos7
+FROM registry.fedoraproject.org/fedora:43
 LABEL maintainer="tomas.kral@gmail.com"
 
-RUN yum -y --setopt=tsflags=nodocs update && \
-    yum -y --setopt=tsflags=nodocs install epel-release && \
-    yum -y --setopt=tsflags=nodocs install nginx && \
-    yum clean all
+RUN dnf -y update && \
+    dnf -y install nginx && \
+    dnf clean all
 
 
 ADD nginx.conf /etc/nginx/nginx.conf
