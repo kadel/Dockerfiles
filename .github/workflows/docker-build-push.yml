@@ -1,3 +1,4 @@
+
 name: Build and Push Docker Images
 
 on:
@@ -29,12 +30,8 @@ jobs:
       - name: Build and push updated container images
         run: |
             ignore_dirs=(".git" ".github" "NOT-MANTAINED" ".")
-            if [[ "${{ github.event.inputs.buildAll }}" == "true" ]]; then
-              updated_dirs=$(find . -maxdepth 1 -type d | sed 's|^./||')
-            else
-              updated_dirs=$(git diff --name-only HEAD^ HEAD | awk -F'/' '{print $1}' | sort -u)
-            fi
-            for dir in $updated_dirs; do
+            dirs=$(find . -maxdepth 1 -type d | sed 's|^./||')
+            for dir in $dirs; do
               echo "Processing directory: $dir"
               dir_name=$(basename "$dir")
               if [[ " ${ignore_dirs[@]} " =~ " ${dir_name} " ]]; then
@@ -42,7 +39,14 @@ jobs:
                 continue
               fi
               if [ -d "$dir" ]; then
-                docker build -t ghcr.io/${{ github.repository }}/${dir_name}:latest "$dir"
-                docker push ghcr.io/${{ github.repository }}/${dir_name}:latest
+                if [ -f "$dir/version" ]; then
+                  version=$(cat "$dir/version")
+                  echo "Found version file in $dir. Using version: $version"
+                else
+                  version="latest"
+                  echo "No version file found in $dir. Using default version: $version"
+                fi
+                docker build -t ghcr.io/${{ github.repository }}/${dir_name}:$version "$dir"
+                docker push ghcr.io/${{ github.repository }}/${dir_name}:$version
               fi
             done
