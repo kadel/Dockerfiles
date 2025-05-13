@@ -1,0 +1,36 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push updated container images
+        run: |
+            ignore_dirs=(".git" ".github" "NOT-MANTAINED")
+            updated_dirs=$(git diff --name-only HEAD^ HEAD | awk -F'/' '{print $1}' | sort -u)
+            for dir in $updated_dirs; do
+              dir_name=$(basename "$dir")
+              if [[ " ${ignore_dirs[@]} " =~ " ${dir_name} " ]]; then
+                echo "Ignoring directory: $dir_name"
+                continue
+              fi
+              if [ -d "$dir" ]; then
+                docker build -t ghcr.io/${{ github.repository }}/${dir_name}:latest "$dir"
+                docker push ghcr.io/${{ github.repository }}/${dir_name}:latest
+              fi
+            done
