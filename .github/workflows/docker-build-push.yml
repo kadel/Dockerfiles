@@ -38,7 +38,14 @@ jobs:
                 continue
               fi
               if [ -d "$dir" ]; then
-                docker build -t ghcr.io/${{ github.repository }}/${dir_name}:latest "$dir"
-                docker push ghcr.io/${{ github.repository }}/${dir_name}:latest
+                if [ -f "$dir/version" ]; then
+                  version=$(cat "$dir/version")
+                  echo "Found version file in $dir. Using version: $version"
+                else
+                  version="latest"
+                  echo "No version file found in $dir. Using default version: $version"
+                fi
+                docker build -t ghcr.io/${{ github.repository }}/${dir_name}:$version "$dir"
+                docker push ghcr.io/${{ github.repository }}/${dir_name}:$version
               fi
             done
