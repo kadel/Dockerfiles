@@ -2,6 +2,11 @@ name: Build and Push Docker Images
 
 on:
   workflow_dispatch:
+    inputs:
+      buildAll:
+        description: 'Build all directories regardless of updates'
+        required: false
+        default: 'false'
   push:
     branches:
       - main
@@ -20,10 +25,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and push updated container images
         run: |
             ignore_dirs=(".git" ".github" "NOT-MANTAINED")
-            updated_dirs=$(git diff --name-only HEAD^ HEAD | awk -F'/' '{print $1}' | sort -u)
+            if [[ "${{ github.event.inputs.buildAll }}" == "true" ]]; then
+              updated_dirs=$(find . -maxdepth 1 -type d | sed 's|^./||' | grep -vE "^(${ignore_dirs[*]})$")
+            else
+              updated_dirs=$(git diff --name-only HEAD^ HEAD | awk -F'/' '{print $1}' | sort -u)
+            fi
             for dir in $updated_dirs; do
               dir_name=$(basename "$dir")
               if [[ " ${ignore_dirs[@]} " =~ " ${dir_name} " ]]; then
