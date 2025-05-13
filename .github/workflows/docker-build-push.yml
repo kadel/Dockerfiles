@@ -34,6 +34,7 @@ jobs:
             else
               updated_dirs=$(git diff --name-only HEAD^ HEAD | awk -F'/' '{print $1}' | sort -u)
             fi
+            echo "Updated directories: $updated_dirs"
             for dir in $updated_dirs; do
               dir_name=$(basename "$dir")
               if [[ " ${ignore_dirs[@]} " =~ " ${dir_name} " ]]; then
