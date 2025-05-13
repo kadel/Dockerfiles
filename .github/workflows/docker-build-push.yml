@@ -12,34 +12,9 @@ on:
       - main
 
 jobs:
-  changed_files:
-    runs-on: ubuntu-latest  # windows-latest || macos-latest
-    name: Test changed-files
-    outputs:
-      all_changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
-      # NOTE: `since_last_remote_commit: true` is implied by default and falls back to the previous local commit.
-
-      - name: List all changed files
-        env:
-          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
-        run: |
-          for file in ${ALL_CHANGED_FILES}; do
-            echo "$file was changed"
-          done
   build-and-push:
-    needs: changed_files
     runs-on: ubuntu-latest
-    strategy: 
-      matrix:
-        dir: ${{ fromJson(needs.changed_files.outputs.all_changed_files) }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -54,18 +29,20 @@ jobs:
       - name: Build and push updated container images
         run: |
             ignore_dirs=(".git" ".github" "NOT-MANTAINED" ".")
-            echo "Processing directory: ${{ matrix.dir }}"
-            if [[ " ${ignore_dirs[@]} " =~ " ${{ matrix.dir }} " ]]; then
-                echo "Ignoring directory: ${{ matrix.dir }}"
-                exit 0
-            fi
-            if [ -f "$dir/version" ]; then
-              version=$(cat "$dir/version")
-              echo "Found version file in $dir. Using version: $version"
+            if [[ "${{ github.event.inputs.buildAll }}" == "true" ]]; then
+              updated_dirs=$(find . -maxdepth 1 -type d | sed 's|^./||')
             else
-              version="latest"
-              echo "No version file found in $dir. Using default version: $version"
+              updated_dirs=$(git diff --name-only HEAD^ HEAD | awk -F'/' '{print $1}' | sort -u)
             fi
-            docker build -t ghcr.io/${{ github.repository }}/${{ matrix.dir }}:$version "$dir"
-            docker push ghcr.io/${{ github.repository }}/${{ matrix.dir }}:$version
-
+            for dir in $updated_dirs; do
+              echo "Processing directory: $dir"
+              dir_name=$(basename "$dir")
+              if [[ " ${ignore_dirs[@]} " =~ " ${dir_name} " ]]; then
+                echo "Ignoring directory: $dir_name"
+                continue
+              fi
+              if [ -d "$dir" ]; then
+                docker build -t ghcr.io/${{ github.repository }}/${dir_name}:latest "$dir"
+                docker push ghcr.io/${{ github.repository }}/${dir_name}:latest
+              fi
+            done
