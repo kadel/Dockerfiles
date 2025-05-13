@@ -29,7 +29,7 @@ jobs:
       - name: Build and push updated container images
         run: |
             ignore_dirs=(".git" ".github" "NOT-MANTAINED" ".")
-            updated_dirs=$(find . -maxdepth 1 -type d | sed 's|^./||')
+            dirs=$(find . -maxdepth 1 -type d | sed 's|^./||')
             for dir in $dirs; do
               echo "Processing directory: $dir"
               dir_name=$(basename "$dir")
